@@ -137,7 +137,7 @@ paralabra o lo que quieras buscar.
 
 #Hastag que voy a buscar.
 
-q="mujerlunabella"
+q="#pormisamigosyo"
 
 count = 100
 
@@ -254,3 +254,62 @@ pt= PrettyTable(field_names=['Count', 'Screen Name', 'Text'])
 pt.max_width['Text']=50
 pt.align='l'
 print pt
+
+"""
+Ejemplo 1-11 Buscar usuarios que han retwiteado un status
+
+
+id=317127304981667841 #id del tweet retwetteado, se obtiene del json
+
+_retweets=twitter_api.statuses.retweets(id=id)
+print [r['user']['screen_name'] for r in _retweets]
+"""
+
+"""
+Ejemplo 1-12 Graficando frecuencias de las palabras
+"""
+import pylab
+word_counts=sorted(Counter(words).values(), reverse=True)
+
+pylab.plt.loglog(word_counts)
+pylab.plt.ylabel('Frecuencia')
+pylab.plt.xlabel('Ranking de palabras')
+pylab.plt.show()
+
+"""
+Ejemplo 1-13 Generando histogramas de palabras, screen names y hashtags
+
+"""
+
+for label, data in (('Words',words),('Screen Names',screen_names),('Hashtags',hashtags)):
+    #Crear un mapa de frecuencia por cada set de datos y graficarlos
+    c=Counter(data)
+    pylab.plt.hist(c.values())
+    
+    #Agregar titulo y nombre al eje Y
+    pylab.plt.title(label)
+    pylab.plt.ylabel('Numero de items en el bin')
+    pylab.plt.xlabel('Bins (Numero de veces que un item aparecio)')
+    
+    #Mostrar como nueva figura
+    pylab.plt.figure()
+
+pylab.plt.show()
+    
+"""
+Ejemplo 1-14 Generando un histograma de los retweets
+"""
+
+#Utilizar guiones bajos _ cuando desempaquetas valores en una tupla es un idioma
+#pata descartarlas
+
+counts=[count for count,_,_ in retweets]
+
+pylab.plt.hist(counts)
+pylab.plt.title('Retweets')
+pylab.plt.xlabel('Numero de items en el bin')
+pylab.plt.ylabel('Bins (Numero de veces que un item aparecio)')
+#pylab.plt.figure()
+pylab.plt.show()
+
+print counts
