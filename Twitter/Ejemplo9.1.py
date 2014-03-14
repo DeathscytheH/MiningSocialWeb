@@ -4,10 +4,9 @@ Ejemplo 9-1 accesando al API de Twitter para desarrollar.
 Modificado para accesar a un archivo con las credenciales y evitar el hardcoding
 de estas.
 """
+import twitter    
 
 def oauth_login(archivo):
-    
-    import twitter
     
     #Leer el archivo donde estan las credenciales
     lines = [line.strip() for line in open(archivo)]
