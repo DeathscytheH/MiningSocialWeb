@@ -1,7 +1,7 @@
 """
-Ejemplo 9.4 Buscar tweets
+9.6 salvando y recuperando datos JSON de archivos txt
+
 """
-import json
 import twitter
 
 def oauth_login(archivo):
@@ -56,13 +56,24 @@ def twitter_search(twitter_api, q, max_results=200, **kw):
             
     return statuses
 
-# Sample usage
+import io, json
 
-twitter_api = oauth_login('oaut.txt')
-
-#Query aqui
-q = "crossfit"
-results = twitter_search(twitter_api, q, max_results=100)
+def save_json(filename, data):
+    with io.open('{0}.json'.format(filename), 'w', encoding='utf-8') as f:
+        f.write(unicode(json.dumps(data, ensure_ascii=False)))
         
-# Show one sample search result by slicing the list...
-print json.dumps(results[0], indent=1)
+def load_json(filename):
+    with io.open('{0}.json'.format(filename), encoding='utf-8') as f:
+        return f.read()
+
+#Ejemplo de uso
+
+q='mujerlunabella'
+
+twitter_api=oauth_login('oaut.txt')
+results = twitter_search(twitter_api, q, max_results=10)
+
+save_json(q, results)
+results = load_json(q)
+
+print json.dumps(results, indent=1)
